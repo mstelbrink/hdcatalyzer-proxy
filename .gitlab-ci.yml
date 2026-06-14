@@ -1,0 +1,26 @@
+stages:
+    - build
+    - compose_up
+    - log
+    - clean
+
+build_job:
+    stage: build
+    script:
+        - docker compose build web-service
+
+compose_up_job:
+    stage: compose_up
+    script:
+        - docker compose up -d
+
+log_job:
+    stage: log
+    script:
+        - docker compose logs -f web-service
+
+clean:
+    stage: clean
+    script:
+        - docker system prune -f
+    
