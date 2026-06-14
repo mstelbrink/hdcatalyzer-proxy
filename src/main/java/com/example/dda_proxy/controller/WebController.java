@@ -12,6 +12,8 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +29,11 @@ import com.mongodb.client.MongoDatabase;
 
 @RestController
 @CrossOrigin
+@Component
 public class WebController {
 
-    private String uri = "mongodb://localhost:27017";
+    @Value("${mongodb.uri}")
+    private String uri;
 
     private String databaseName = "templates";
 
