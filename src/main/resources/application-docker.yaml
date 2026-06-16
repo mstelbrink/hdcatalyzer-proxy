@@ -1,6 +1,12 @@
 spring:
   application:
     name: dda-proxy
+  ai:
+    ollama:
+      base-url: http://ollama:11434
+      chat:
+        options:
+          model: qwen2.5:0.5b
     
 mongodb:
   uri: mongodb://mongodb:27017
