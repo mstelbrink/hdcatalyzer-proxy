@@ -3,8 +3,14 @@ package com.example.dda_proxy.controller;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
@@ -12,6 +18,14 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.bson.Document;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.ollama.api.OllamaChatOptions;
+import org.springframework.ai.ollama.api.OllamaModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.client.FindIterable;
@@ -26,6 +41,8 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+
+import reactor.core.publisher.Flux;
 
 @RestController
 @CrossOrigin
@@ -38,6 +55,13 @@ public class WebController {
     private String databaseName = "templates";
 
     private String publicTemplates = "public_templates";
+
+    private final OllamaChatModel chatModel;
+
+    @Autowired
+    public WebController(OllamaChatModel chatModel) {
+        this.chatModel = chatModel;
+    }
 
     @GetMapping("/templates")
     public List<Document> getTemplates() {
@@ -102,5 +126,34 @@ public class WebController {
         String turtle = out.toString();
 
         return turtle;
+    }
+
+    @PostMapping("/ai/generate")
+	public Map<String,String> generate(@RequestBody Map<String, String> body) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("You are a professional ")
+            .append(body.get("sourceLang"))
+            .append(" (")
+            .append(body.get("sourceLangKey"))
+            .append(") to ")
+            .append(body.get("targetLang"))
+            .append(" (")
+            .append(body.get("targetLangKey"))
+            .append(") translator. Your goal is to accurately convey the meaning and nuances of the original ")
+            .append(body.get("sourceLang"))
+            .append(" text while adhering to ")
+            .append(body.get("targetLang"))
+            .append(" grammar, vocabulary, and cultural sensitivities.\n")
+            .append("Produce only the ")
+            .append(body.get("targetLang"))
+            .append(" translation, without any additional explanations or commentary. Please translate the following ")
+            .append(body.get("sourceLang"))
+            .append(" text into ")
+            .append(body.get("targetLang"))
+            .append(":\n\n")
+            .append(body.get("text"));
+
+        
+        return Map.of("generation", this.chatModel.call(sb.toString()));
     }
 }

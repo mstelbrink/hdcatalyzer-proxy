@@ -1,7 +1,7 @@
 stages:
     - build
     - compose_up
-    - log
+    - pull_model
     - clean
 
 build_job:
@@ -14,10 +14,10 @@ compose_up_job:
     script:
         - docker compose up -d
 
-log_job:
-    stage: log
+pull_ollama_model:
+    stage: pull_model
     script:
-        - docker compose logs -f web-service
+        - docker compose exec ollama ollama pull translategemma:4b
 
 clean:
     stage: clean
