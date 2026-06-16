@@ -17,7 +17,7 @@ compose_up_job:
 pull_ollama_model:
     stage: pull_model
     script:
-        - docker compose exec ollama ollama pull translategemma:4b
+        - docker compose exec ollama ollama pull qwen2.5:0.5b
 
 clean:
     stage: clean
