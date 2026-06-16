@@ -6,7 +6,7 @@ spring:
       base-url: http://ollama:11434
       chat:
         options:
-          model: qwen2.5:0.5b
+          model: translategemma:4b
     
 mongodb:
   uri: mongodb://mongodb:27017
