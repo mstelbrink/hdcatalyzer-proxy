@@ -3,11 +3,6 @@ package com.example.dda_proxy.controller;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +13,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.bson.Document;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.ai.ollama.api.OllamaChatOptions;
-import org.springframework.ai.ollama.api.OllamaModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -33,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.client.FindIterable;
@@ -41,8 +29,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
-import reactor.core.publisher.Flux;
 
 @RestController
 @CrossOrigin
@@ -55,6 +41,7 @@ public class WebController {
     private String databaseName = "templates";
 
     private String publicTemplates = "public_templates";
+    private String snapshotsCollectionName = "snapshots";
 
     private final OllamaChatModel chatModel;
 
@@ -107,6 +94,39 @@ public class WebController {
             }
 
             body.append("_id", name);
+            collection.insertOne(body);
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
+    }
+
+    @GetMapping("/snapshot/{uuid}")
+    public Document getSnapshot(@PathVariable String uuid) {
+        // Replace the placeholder with your MongoDB deployment's connection string
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase(databaseName);
+            MongoCollection<Document> collection = database.getCollection(snapshotsCollectionName);
+            Document document = collection.find(eq("_id", uuid)).first();
+            return document;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } 
+    }
+
+    @PostMapping("/snapshot/{uuid}")
+    public void addSnapshot(@PathVariable String uuid, @RequestBody Document body) {
+        // Replace the placeholder with your MongoDB deployment's connection string
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase(databaseName);
+            database.createCollection(snapshotsCollectionName);
+            MongoCollection<Document> collection = database.getCollection(snapshotsCollectionName);
+
+            if (uuid.isBlank()) {
+                throw new Exception("UUID must not be empty");
+            }
+
+            body.append("_id", uuid);
             collection.insertOne(body);
         } catch (Exception e) {
             System.out.println(e);
