@@ -11,13 +11,3 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama:/root/.ollama
-
-volumes:
-  ollama:

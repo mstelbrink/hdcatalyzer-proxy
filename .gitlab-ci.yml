@@ -14,11 +14,6 @@ compose_up_job:
     script:
         - docker compose up -d
 
-pull_ollama_model:
-    stage: pull_model
-    script:
-        - docker compose exec ollama ollama list
-
 clean:
     stage: clean
     script:
