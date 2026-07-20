@@ -4,6 +4,7 @@ services:
     build: .
     ports: 
       - "8080:8080"
+    restart: unless-stopped
     depends_on: 
       - mongodb
   mongodb:
@@ -11,3 +12,4 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
+    restart: unless-stopped
