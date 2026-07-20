@@ -10,4 +10,4 @@ COPY . .
 
 RUN mvn package
 
-CMD cp ./target/*.jar dda-proxy.jar && cp src/main/resources/application-docker.yaml application.yaml && java -jar dda-proxy.jar
+CMD cp ./target/*.jar dda-proxy.jar && java -jar dda-proxy.jar
