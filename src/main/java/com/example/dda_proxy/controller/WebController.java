@@ -133,19 +133,30 @@ public class WebController {
         } 
     }
 
-    @PostMapping("/jsonld-to-ttl")
-    public String convertJsonLdToTurtle(@RequestBody String data) {
+    @PostMapping("/convert")
+    public String convert(@RequestBody Map<String, String> body) {
+
+        Lang type;
+        if (body.get("type").equals("application/n-triples")) {
+            type = Lang.NTRIPLES;
+        } else if (body.get("type").equals("text/turtle")) {
+            type = Lang.TURTLE;
+        } else if (body.get("type").equals("application/rdf+xml")) {
+            type = Lang.RDFXML;
+        } else {
+            throw new Error("Specified format not supported");
+        }
 
         Model model = ModelFactory.createDefaultModel()
-        .read(IOUtils.toInputStream(data, "UTF-8"), null, "JSON-LD");
+        .read(IOUtils.toInputStream(body.get("content"), "UTF-8"), null, "JSON-LD");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        RDFDataMgr.write(out, model, Lang.TURTLE);
+        RDFDataMgr.write(out, model, type);
 
-        String turtle = out.toString();
+        String content = out.toString();
 
-        return turtle;
+        return content;
     }
 
     @PostMapping("/ai/generate")
