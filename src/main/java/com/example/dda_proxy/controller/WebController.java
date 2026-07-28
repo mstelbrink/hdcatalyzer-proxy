@@ -3,9 +3,14 @@ package com.example.dda_proxy.controller;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
@@ -16,6 +21,7 @@ import org.bson.Document;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +29,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -186,5 +194,31 @@ public class WebController {
 
         
         return Map.of("generation", this.chatModel.call(sb.toString()));
+    }
+
+    @GetMapping("/kliniken")
+    public List<Map<String, String>> getKliniken() throws Exception {
+        ClassPathResource resource = new ClassPathResource("2026-06-30_TVERZ_Export.xml");
+        File xmlFile = resource.getFile();
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        org.w3c.dom.Document document = builder.parse(xmlFile);
+
+        List<Map<String, String>> elements = new ArrayList<>();
+        NodeList nodeList = document.getElementsByTagName("StandortKontaktDaten");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Map<String, String> map = new HashMap<>();
+            Element element = (Element) nodeList.item(i);
+            map.put("STOID", element.getAttribute("STOID"));
+            map.put("Land", element.getAttribute("Land"));
+            map.put("Name", element.getAttribute("Name"));
+            map.put("Telefon", element.getAttribute("Telefon"));
+            map.put("EMail", element.getAttribute("EMail"));
+            map.put("URL", element.getAttribute("URL"));
+            elements.add(map);
+        }
+        return elements;
     }
 }
