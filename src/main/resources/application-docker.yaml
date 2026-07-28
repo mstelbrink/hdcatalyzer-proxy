@@ -3,10 +3,10 @@ spring:
     name: dda-proxy
   ai:
     ollama:
-      base-url: http://localhost:11434
+      base-url: http://ollama:11434
       chat:
         options:
           model: translategemma:4b
     
 mongodb:
-  uri: mongodb://localhost:27017
+  uri: mongodb://mongodb:27017
