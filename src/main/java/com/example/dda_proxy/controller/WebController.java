@@ -4,6 +4,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -199,12 +200,12 @@ public class WebController {
     @GetMapping("/kliniken")
     public List<Map<String, String>> getKliniken() throws Exception {
         ClassPathResource resource = new ClassPathResource("2026-06-30_TVERZ_Export.xml");
-        File xmlFile = resource.getFile();
+        InputStream inputStream = resource.getInputStream();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
-        org.w3c.dom.Document document = builder.parse(xmlFile);
+        org.w3c.dom.Document document = builder.parse(inputStream);
 
         List<Map<String, String>> elements = new ArrayList<>();
         NodeList nodeList = document.getElementsByTagName("StandortKontaktDaten");
