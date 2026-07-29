@@ -39,6 +39,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 @CrossOrigin
 @Component
@@ -110,15 +112,20 @@ public class WebController {
     }
 
     @GetMapping("/snapshot/{uuid}")
-    public Document getSnapshot(@PathVariable String uuid) {
+    public Document getSnapshot(@PathVariable String uuid, HttpServletResponse response) {
         // Replace the placeholder with your MongoDB deployment's connection string
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase(databaseName);
             MongoCollection<Document> collection = database.getCollection(snapshotsCollectionName);
             Document document = collection.find(eq("_id", uuid)).first();
+
+            if (document == null) {
+                throw new Exception("Document is empty.");
+            }
+
             return document;
         } catch (Exception e) {
-            System.out.println(e);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         } 
     }
