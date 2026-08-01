@@ -3,7 +3,6 @@ package com.example.dda_proxy.controller;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +41,7 @@ import com.mongodb.client.MongoDatabase;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@CrossOrigin
+@CrossOrigin( origins = "https://dda-web.ddnss.de, http://localhost:5173]")
 @Component
 public class WebController {
 
