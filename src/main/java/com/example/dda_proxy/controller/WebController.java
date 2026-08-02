@@ -41,7 +41,7 @@ import com.mongodb.client.MongoDatabase;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@CrossOrigin( origins = "https://dda-web.ddnss.de, http://localhost:5173]")
+@CrossOrigin( origins = "https://dda-web.ddnss.de, http://localhost:5173")
 @Component
 public class WebController {
 
