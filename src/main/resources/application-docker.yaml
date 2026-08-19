@@ -10,3 +10,7 @@ spring:
     
 mongodb:
   uri: mongodb://mongodb:27017
+
+config:
+  categories:
+    file: src/main/resources/config/categories.json

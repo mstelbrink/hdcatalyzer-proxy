@@ -2,8 +2,10 @@ package com.example.dda_proxy.controller;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,8 @@ import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +51,9 @@ public class WebController {
 
     @Value("${mongodb.uri}")
     private String uri;
+
+    @Value("${config.categories.file}")
+    private String categoriesFile;
 
     private String databaseName = "templates";
 
@@ -234,5 +241,22 @@ public class WebController {
             elements.add(map);
         }
         return elements;
+    }
+
+    @GetMapping("/categories")
+    public Document getCategories() throws Exception {
+        Resource resource = new FileSystemResource(categoriesFile);
+        InputStream inputStream = resource.getInputStream();
+
+        BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")); 
+        StringBuilder responseStrBuilder = new StringBuilder();
+
+        String inputStr;
+        while ((inputStr = streamReader.readLine()) != null)
+            responseStrBuilder.append(inputStr);
+
+        Document document = Document.parse(responseStrBuilder.toString());
+
+        return document;
     }
 }
