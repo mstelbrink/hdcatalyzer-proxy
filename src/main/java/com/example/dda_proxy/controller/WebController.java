@@ -176,7 +176,15 @@ public class WebController {
 
     @PostMapping("/ai/generate")
 	public Map<String,String> generate(@RequestBody Map<String, String> body) {
+
         StringBuilder sb = new StringBuilder();
+
+        if (body.get("sourceLangKey").equals("en")) body.put("sourceLang", "English");
+        if (body.get("sourceLangKey").equals("de")) body.put("sourceLang", "German");
+        
+        if (body.get("targetLangKey").equals("en")) body.put("targetLang", "English");
+        if (body.get("targetLangKey").equals("de")) body.put("targetLang", "German");
+
         sb.append("You are a professional ")
             .append(body.get("sourceLang"))
             .append(" (")
@@ -199,7 +207,6 @@ public class WebController {
             .append(":\n\n")
             .append(body.get("text"));
 
-        
         return Map.of("generation", this.chatModel.call(sb.toString()));
     }
 
