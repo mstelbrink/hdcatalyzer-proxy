@@ -212,7 +212,7 @@ public class WebController {
 
     @GetMapping("/kliniken")
     public List<Map<String, String>> getKliniken() throws Exception {
-        ClassPathResource resource = new ClassPathResource("2026-06-30_TVERZ_Export.xml");
+        ClassPathResource resource = new ClassPathResource("2026-09-01_TVERZ_Export.xml");
         InputStream inputStream = resource.getInputStream();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
