@@ -1,0 +1,198 @@
+{
+  "dct:title": {
+    "name": "Deskriptive Daten",
+    "usage_note": ""
+  },
+  "dct:description": {
+    "name": "Deskriptive Daten",
+    "usage_note": ""
+  },
+  "dpv:hasPurpose": {
+    "name": "Rechtsgrundlagen",
+    "usage_note": ""
+  },
+  "dcat:theme": {
+    "name": "Thematik",
+    "usage_note": ""
+  },
+  "dct:provenance": {
+    "name": "Datenherkunft",
+    "usage_note": ""
+  },
+  "dct:creator": {
+    "name": "Akteure",
+    "usage_note": ""
+  },
+  "prov:wasGeneratedBy": {
+    "name": "Datenherkunft",
+    "usage_note": ""
+  },
+  "dcat:keyword": {
+    "name": "Deskriptive Daten",
+    "usage_note": ""
+  },
+  "dct:language": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "dct:spatial": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "healthdcatap:populationCoverage": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "healthdcatap:numberOfUniqueIndividuals": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "healthdcatap:numberOfRecords": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "healthdcatap:minTypicalAge": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "healthdcatap:maxTypicalAge": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "dpv:hasPersonalData": {
+    "name": "Rechtsgrundlagen",
+    "usage_note": ""
+  },
+  "dct:temporal": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "dcat:temporalResolution": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "dcat:spatialResolutionInMeters": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "dct:accrualPeriodicity": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "dpv:hasLegalBasis": {
+    "name": "Rechtsgrundlagen",
+    "usage_note": ""
+  },
+  "prov:qualifiedAttribution": {
+    "name": "Datenherkunft",
+    "usage_note": ""
+  },
+  "healthdcatap:retentionPeriod": {
+    "name": "Studiendesign",
+    "usage_note": ""
+  },
+  "dct:identifier": {
+    "name": "Identifikatoren",
+    "usage_note": ""
+  },
+  "adms:identifier": {
+    "name": "Identifikatoren",
+    "usage_note": ""
+  },
+  "dcat:contactPoint": {
+    "name": "Akteure",
+    "usage_note": ""
+  },
+  "dct:publisher": {
+    "name": "Akteure",
+    "usage_note": ""
+  },
+  "healthdcatap:hdab": {
+    "name": "Akteure",
+    "usage_note": ""
+  },
+  "geodcatap:custodian": {
+    "name": "Akteure",
+    "usage_note": ""
+  },
+  "dct:conformsTo": {
+    "name": "Standards & Terminologien",
+    "usage_note": ""
+  },
+  "healthdcatap:hasCodingSystem": {
+    "name": "Standards & Terminologien",
+    "usage_note": ""
+  },
+  "dct:relation": {
+    "name": "Datenherkunft",
+    "usage_note": ""
+  },
+  "dct:isReferencedBy": {
+    "name": "Dokumentation",
+    "usage_note": ""
+  },
+  "dcat:landingPage": {
+    "name": "Dokumentation",
+    "usage_note": ""
+  },
+  "foaf:page": {
+    "name": "Dokumentation",
+    "usage_note": ""
+  },
+  "dcatap:applicableLegislation": {
+    "name": "Rechtsgrundlagen",
+    "usage_note": ""
+  },
+  "dct:accessRights": {
+    "name": "Rechtsgrundlagen",
+    "usage_note": ""
+  },
+  "dcat:version": {
+    "name": "Datensatzstruktur",
+    "usage_note": ""
+  },
+  "dcat:hasVersion": {
+    "name": "Datensatzstruktur",
+    "usage_note": ""
+  },
+  "adms:versionNotes": {
+    "name": "Datensatzstruktur",
+    "usage_note": ""
+  },
+  "dct:issued": {
+    "name": "Stewardship",
+    "usage_note": ""
+  },
+  "dct:modified": {
+    "name": "Stewardship",
+    "usage_note": ""
+  },
+  "dct:type": {
+    "name": "Thematik",
+    "usage_note": ""
+  },
+  "healthdcatap:healthCategory": {
+    "name": "Thematik",
+    "usage_note": ""
+  },
+  "healthdcatap:healthTheme": {
+    "name": "Thematik",
+    "usage_note": ""
+  },
+  "healthdcatap:hasCodeValues": {
+    "name": "Standards & Terminologien",
+    "usage_note": ""
+  },
+  "dqv:hasQualityAnnotation": {
+    "name": "Datenqualität",
+    "usage_note": ""
+  },
+  "healthdcatap:hasStructuredData": {
+    "name": "Variablenkatalog",
+    "usage_note": ""
+  },
+  "healthdcatap:hasVariables": {
+    "name": "Variablenkatalog",
+    "usage_note": ""
+  },
+}

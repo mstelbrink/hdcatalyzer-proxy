@@ -4,6 +4,10 @@ services:
     build: .
     ports: 
       - "8080:8080"
+    volumes:
+      - type: bind
+        source: ${CATEGORIES_CONFIG_PATH}
+        target: /app/config
     restart: unless-stopped
     depends_on: 
       - mongodb

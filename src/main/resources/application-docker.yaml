@@ -13,4 +13,4 @@ mongodb:
 
 config:
   categories:
-    file: src/main/resources/config/categories.json
+    file: ./config/categories.json
