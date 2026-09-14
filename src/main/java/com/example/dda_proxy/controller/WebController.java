@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -181,33 +182,36 @@ public class WebController {
 	public Map<String,String> translate(@RequestBody Map<String, String> body) {
         StringBuilder sb = new StringBuilder();
 
-        if (body.get("sourceLangKey").equals("en")) body.put("sourceLang", "English");
-        if (body.get("sourceLangKey").equals("de")) body.put("sourceLang", "German");
+        Locale sourceLocale = Locale.of(body.get("sourceLangKey"));
+        Locale targetLocale = Locale.of(body.get("targetLangKey"));
         
-        if (body.get("targetLangKey").equals("en")) body.put("targetLang", "English");
-        if (body.get("targetLangKey").equals("de")) body.put("targetLang", "German");
+        String sourceLang = sourceLocale.getDisplayLanguage();
+        String sourceLangKey = body.get("sourceLangKey");
+        String targetLang = targetLocale.getDisplayLanguage();
+        String targetLangKey = body.get("targetLangKey");
+        String text = body.get("text");
 
         sb.append("You are a professional ")
-            .append(body.get("sourceLang"))
+            .append(sourceLang)
             .append(" (")
-            .append(body.get("sourceLangKey"))
+            .append(sourceLangKey)
             .append(") to ")
-            .append(body.get("targetLang"))
+            .append(targetLang)
             .append(" (")
-            .append(body.get("targetLangKey"))
+            .append(targetLangKey)
             .append(") translator. Your goal is to accurately convey the meaning and nuances of the original ")
-            .append(body.get("sourceLang"))
+            .append(sourceLang)
             .append(" text while adhering to ")
-            .append(body.get("targetLang"))
+            .append(targetLang)
             .append(" grammar, vocabulary, and cultural sensitivities.\n")
             .append("Produce only the ")
-            .append(body.get("targetLang"))
+            .append(targetLang)
             .append(" translation, without any additional explanations or commentary. Please translate the following ")
-            .append(body.get("sourceLang"))
+            .append(sourceLang)
             .append(" text into ")
-            .append(body.get("targetLang"))
+            .append(targetLang)
             .append(":\n\n")
-            .append(body.get("text"));
+            .append(text);
 
         return Map.of("generation", this.chatModel.call(sb.toString()));
     }
