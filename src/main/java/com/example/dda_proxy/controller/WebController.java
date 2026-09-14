@@ -115,12 +115,12 @@ public class WebController {
         } 
     }
 
-    @GetMapping("/snapshot/{uuid}")
-    public Document getSnapshot(@PathVariable String slug) {
+    @GetMapping("/snapshot/{slug}")
+    public Document getSnapshot(@PathVariable String slug, HttpServletResponse response) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase(databaseName);
             MongoCollection<Document> collection = database.getCollection(snapshotsCollectionName);
-            Document document = collection.find(eq("_id", uuid)).first();
+            Document document = collection.find(eq("_id", slug)).first();
 
             if (document == null) {
                 throw new Exception("Document is empty.");
