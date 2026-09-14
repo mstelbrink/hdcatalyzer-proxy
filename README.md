@@ -32,6 +32,10 @@ docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 docker exec -it ollama ollama run translategemma:4b
 ```
 
+```sh
+docker network connect dda-proxy_default ollama # (The network dda-proxy_default works with docker compose and needs to be changed if deployment process uses standard docker commands.)
+```
+
 #### docker
 
 ```sh
