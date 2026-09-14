@@ -86,7 +86,6 @@ public class WebController {
 
     @GetMapping("/template/{name}")
     public Document getTemplateByName(@PathVariable String name) {
-        // Replace the placeholder with your MongoDB deployment's connection string
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase(databaseName);
             MongoCollection<Document> collection = database.getCollection(publicTemplates);
@@ -100,7 +99,6 @@ public class WebController {
 
     @PostMapping("/template/{name}")
     public void addTemplate(@PathVariable String name, @RequestBody Document body) {
-        // Replace the placeholder with your MongoDB deployment's connection string
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase(databaseName);
             database.createCollection(publicTemplates);
@@ -118,8 +116,7 @@ public class WebController {
     }
 
     @GetMapping("/snapshot/{uuid}")
-    public Document getSnapshot(@PathVariable String uuid, HttpServletResponse response) {
-        // Replace the placeholder with your MongoDB deployment's connection string
+    public Document getSnapshot(@PathVariable String slug) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase(databaseName);
             MongoCollection<Document> collection = database.getCollection(snapshotsCollectionName);
@@ -136,19 +133,18 @@ public class WebController {
         } 
     }
 
-    @PostMapping("/snapshot/{uuid}")
-    public void addSnapshot(@PathVariable String uuid, @RequestBody Document body) {
-        // Replace the placeholder with your MongoDB deployment's connection string
+    @PostMapping("/snapshot/{slug}")
+    public void addSnapshot(@PathVariable String slug, @RequestBody Document body) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase(databaseName);
             database.createCollection(snapshotsCollectionName);
             MongoCollection<Document> collection = database.getCollection(snapshotsCollectionName);
 
-            if (uuid.isBlank()) {
+            if (slug.isBlank()) {
                 throw new Exception("UUID must not be empty");
             }
 
-            body.append("_id", uuid);
+            body.append("_id", slug);
             collection.insertOne(body);
         } catch (Exception e) {
             System.out.println(e);
@@ -181,9 +177,8 @@ public class WebController {
         return content;
     }
 
-    @PostMapping("/ai/generate")
-	public Map<String,String> generate(@RequestBody Map<String, String> body) {
-
+    @PostMapping("/translate")
+	public Map<String,String> translate(@RequestBody Map<String, String> body) {
         StringBuilder sb = new StringBuilder();
 
         if (body.get("sourceLangKey").equals("en")) body.put("sourceLang", "English");
